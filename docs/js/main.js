@@ -9,7 +9,7 @@ $(() => {
     province: '福建省',
     city: '厦门市',
     district: '思明区',
-    ajaxUrl: 'http://localhost:8801/commons/dist',
+    // ajaxUrl: 'http://localhost:8801/commons/dist',
   });
 
   $('#reset').click(() => {
