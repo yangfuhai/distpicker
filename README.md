@@ -1,6 +1,8 @@
 # Distpicker
 
-[![Downloads](https://img.shields.io/npm/dm/distpicker.svg)](https://www.npmjs.com/package/distpicker) [![Version](https://img.shields.io/npm/v/distpicker.svg)](https://www.npmjs.com/package/distpicker)
+项目来源于：https://github.com/fengyuanchen/distpicker
+
+但是由于其地址是死的，需要经常更新地址重新编译，因此重新 fork 并新增了 ajaxUrl 的配置，用于可以通过 ajax 读取后台数据库的地址，用于渲染。
 
 > A simple jQuery plugin for picking provinces, cities and districts of China.
 
