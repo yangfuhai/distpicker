@@ -23,7 +23,8 @@ export default class Distpicker {
     const { length } = $selects;
     const data = {};
 
-    $selects.each((i, select) => $.extend(data, $(select).data()));
+    $selects.each((i, select) => $.extend(data, $(select)
+      .data()));
 
     $.each([PROVINCE, CITY, DISTRICT], (i, type) => {
       if (data[type]) {
@@ -83,11 +84,13 @@ export default class Distpicker {
         break;
 
       case CITY:
-        code = this.$province && (this.$province.find(':selected').data('code') || '');
+        code = this.$province && (this.$province.find(':selected')
+          .data('code') || '');
         break;
 
       case DISTRICT:
-        code = this.$city && (this.$city.find(':selected').data('code') || '');
+        code = this.$city && (this.$city.find(':selected')
+          .data('code') || '');
         break;
     }
 
@@ -172,7 +175,26 @@ export default class Distpicker {
 
   // eslint-disable-next-line class-methods-use-this
   getDistricts(code = DEFAULT_CODE) {
-    return DISTRICTS[code] || null;
+    const ops = this.options;
+    if (ops.ajaxUrl === '') {
+      return DISTRICTS[code] || null;
+    }
+
+    if (code === '') {
+      return null;
+    }
+
+    let $data = null;
+    // eslint-disable-next-line no-undef,no-shadow
+    $.ajax({
+      type: 'get',
+      url: `${ops.ajaxUrl}${ops.ajaxUrl.indexOf('?') > 0 ? '&' : '?'}code=${code}`,
+      async: false,
+      success(data) {
+        $data = data;
+      },
+    });
+    return $data;
   }
 
   reset(deep) {
@@ -181,7 +203,10 @@ export default class Distpicker {
       this.output(CITY);
       this.output(DISTRICT);
     } else if (this.$province) {
-      this.$province.find(':first').prop('selected', true).end().trigger(EVENT_CHANGE);
+      this.$province.find(':first')
+        .prop('selected', true)
+        .end()
+        .trigger(EVENT_CHANGE);
     }
   }
 

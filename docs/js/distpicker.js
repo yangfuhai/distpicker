@@ -5,14 +5,14 @@
  * Copyright 2014-present Chen Fengyuan
  * Released under the MIT license
  *
- * Date: 2019-10-19T07:28:37.269Z
+ * Date: 2020-11-12T04:01:01.934Z
  */
 
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
   typeof define === 'function' && define.amd ? define(['jquery'], factory) :
   (global = global || self, factory(global.jQuery));
-}(this, function ($) { 'use strict';
+}(this, (function ($) { 'use strict';
 
   $ = $ && $.hasOwnProperty('default') ? $['default'] : $;
 
@@ -54,7 +54,9 @@
     // Defines the initial value of city.
     city: '—— 市 ——',
     // Defines the initial value of district.
-    district: '—— 区 ——'
+    district: '—— 区 ——',
+    // Get distrcts from ajax
+    ajaxUrl: ''
   };
 
   var DISTRICTS = {
@@ -4342,7 +4344,27 @@
       key: "getDistricts",
       value: function getDistricts() {
         var code = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_CODE;
-        return DISTRICTS[code] || null;
+        var ops = this.options;
+
+        if (ops.ajaxUrl === '') {
+          return DISTRICTS[code] || null;
+        }
+
+        if (code === '') {
+          return null;
+        }
+
+        var $data = null; // eslint-disable-next-line no-undef,no-shadow
+
+        $.ajax({
+          type: 'get',
+          url: "".concat(ops.ajaxUrl).concat(ops.ajaxUrl.indexOf('?') > 0 ? '&' : '?', "code=").concat(code),
+          async: false,
+          success: function success(data) {
+            $data = data;
+          }
+        });
+        return $data;
       }
     }, {
       key: "reset",
@@ -4424,4 +4446,4 @@
     });
   }
 
-}));
+})));

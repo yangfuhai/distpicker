@@ -20,4 +20,7 @@ export default {
 
   // Defines the initial value of district.
   district: '—— 区 ——',
+
+  // Get distrcts from ajax
+  ajaxUrl: '',
 };
